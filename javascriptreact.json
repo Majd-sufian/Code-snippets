@@ -1,0 +1,61 @@
+{
+  "console": {
+    "prefix": "con",
+    "body": ["console.log();"],
+    "description": "consoleLog"
+  },
+
+  "UseFetchDataHook": {
+    "prefix": "UseFetchDataHook",
+    "body": [
+      "const useFetchData = () => {const [data, setData] = useState<User>();const [error, setError] = useState();const [loading, setLoading] = useState(true);useEffect(() => {setLoading(true);const cancelToken = axios.CancelToken.source();(async () => {try {const call = await axios.get<User>(url, { cancelToken: cancelToken.token }).then((response: AxiosResponse) => {setData(response.data);setLoading(false);});} catch (error: any) {setLoading(false);if (axios.isCancel(error)) {console.log('request paused'); } else {setError(error); }}})();return () => {cancelToken.cancel(); };},[]);return { data, error, loading };};"
+    ],
+    "description": "UseFetchDataHook"
+  },
+
+  "fetchFunctionWithTryCatch": {
+    "prefix": "fetchFunctionWithTryCatch",
+    "body": [
+      "const fetchFromAPI = async () => {try {let response = await fetch(url);let data = await response.json();console.log(data);} catch (errro) {setError(errro);}};"
+    ],
+    "description": "fetchFunctionWithTryCatch"
+  },
+
+  "fetchWithController": {
+    "prefix": "fetchWithController",
+    "body": [
+      "const [fetchedData, setFetchedData] = useState();const [error, setError] = useState(null);useEffect(() => {let controller = new AbortController();const signal = controller.signal;(async () => {try {const response = await fetch(url, { signal }); const data = await response.json();setFetchedData(data);} catch (error) {error.name === 'AbortError' && setError(error);}})();return () => {controller.abort();};}, []); // Fetch Hook (with AbortController to avoid race conditions and memory leaks) https://gist.github.com/thathurtabit/0eed2c8568c409a5dd6a757c29f9564f"
+    ],
+    "description": "fetchWithController"
+  },
+
+  "fetchFunction": {
+    "prefix": "fetchFunction",
+    "body": [
+      "fetch('URL')",
+      "  .then((response) => response.json())",
+      ".then((data) => {console.log(data)});"
+    ],
+    "description": "fetchFunction"
+  },
+
+  "iterateObject": {
+    "prefix": "iterateObject",
+    "body": [
+      "{Object.keys(items).map((key) => (<div key={key}><h2>{key}</h2>{items[key].map((item) => (<p>{item}</p>))}</div>))}"
+    ],
+    "description": "iterateObject"
+  },
+
+  "useEffectEasy": {
+    "prefix": "useEffectEasy",
+    "body": "useEffect(() => {}, []);",
+    "description": "useEffectEasy"
+  },
+
+  "mapFunction": {
+    "prefix": "mapFunction",
+    "body": ["{items.map((item, index) => (<h1>item</h1>))}"],
+    "description": "mapFunction"
+  }
+}
